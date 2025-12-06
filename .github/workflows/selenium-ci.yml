@@ -31,7 +31,7 @@ jobs:
         run: mvn install -DskipTests
 
       - name: Install ffmpeg
-        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg xvfb
 
       - name: Run Selenium tests with video recording
         run: |
@@ -41,12 +41,16 @@ jobs:
           
           # Start ffmpeg to record the virtual display
           ffmpeg -y -video_size 1280x720 -framerate 10 -f x11grab -i :99 selenium-video.mp4 &
+          FFMPEG_PID=$!
           
           # Run the tests
           mvn test
+          
+          # Stop ffmpeg after tests finish
+          kill $FFMPEG_PID || true
 
       - name: Upload video artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: selenium-video
           path: selenium-video.mp4

@@ -5,22 +5,26 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class DemoTest {
-@Test
-public void testGoogleTitle() {
 
-    ChromeOptions options = new ChromeOptions();
-    // comment out headless so you can see the browser
-    // options.addArguments("--headless=new");
+    @Test
+    public void testGoogleTitle() {
 
-    WebDriver driver = new ChromeDriver(options);
-    driver.get("https://www.google.com");
+        ChromeOptions options = new ChromeOptions();
+        // Headless mode + CI-friendly flags
+        options.addArguments("--headless=new");       // Run without GUI
+        options.addArguments("--no-sandbox");         // Required in CI
+        options.addArguments("--disable-dev-shm-usage"); // Prevent memory issues
+        options.addArguments("--disable-gpu");        // Safe in CI
 
-    // wait 5 seconds so you can see the page
-    try { Thread.sleep(5000); } catch (Exception e) {}
+        WebDriver driver = new ChromeDriver(options);
+        driver.get("https://www.google.com");
 
-    Assert.assertTrue(driver.getTitle().contains("Google"));
+        // Optional: wait a bit (not needed in real tests)
+        try { Thread.sleep(5000); } catch (Exception e) {}
 
-    driver.quit();
+        Assert.assertTrue(driver.getTitle().contains("Google"));
+
+        driver.quit();
+    }
 }
 
-}

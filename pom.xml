@@ -40,18 +40,18 @@
             <version>5.5.3</version>
         </dependency>
 
-        <!-- Monte Screen Recorder (old version compatible with BaseTest.java) -->
+        <!-- Monte Screen Recorder (official) -->
         <dependency>
-            <groupId>com.github.stephenc.monte</groupId>
+            <groupId>org.monte</groupId>
             <artifactId>monte-screen-recorder</artifactId>
-            <version>0.7.7.0</version>
+            <version>0.7.7</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <!-- Java compiler -->
+            <!-- Java compiler plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -62,7 +62,7 @@
                 </configuration>
             </plugin>
 
-            <!-- Run JUnit 5 tests -->
+            <!-- Surefire plugin for JUnit 5 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>

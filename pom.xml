@@ -31,11 +31,18 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- WebDriverManager -->
+        <!-- WebDriverManager for automatic driver binaries -->
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
-            <version>5.5.1</version>
+            <version>5.5.3</version>
+        </dependency>
+
+        <!-- Monte Media for video recording -->
+        <dependency>
+            <groupId>org.monte</groupId>
+            <artifactId>monte-screen-recorder</artifactId>
+            <version>0.7.7</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -53,7 +60,7 @@
                 </configuration>
             </plugin>
 
-            <!-- TestNG runner -->
+            <!-- Surefire plugin to run tests -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -62,8 +69,7 @@
                     <includes>
                         <include>**/*Test.java</include>
                     </includes>
-                    <forkCount>1</forkCount>
-                    <reuseForks>false</reuseForks>
+                    <testFailureIgnore>false</testFailureIgnore>
                 </configuration>
             </plugin>
         </plugins>

@@ -42,12 +42,13 @@
         </dependency>
 
         <!-- Monte Screen Recorder (public Maven Central version) -->
-        <dependency>
-            <groupId>com.github.stephenc.monte</groupId>
-            <artifactId>monte-screen-recorder</artifactId>
-            <version>0.7.7.0</version>
-            <scope>test</scope>
-        </dependency>
+     <dependency>
+    <groupId>org.monte</groupId>
+    <artifactId>monte-media</artifactId>
+    <version>12.0.1</version>
+    <scope>test</scope>
+</dependency>
+
     </dependencies>
 
     <build>

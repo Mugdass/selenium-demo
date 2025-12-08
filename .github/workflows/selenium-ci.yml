@@ -38,24 +38,16 @@ jobs:
           # Start virtual display
           Xvfb :99 -screen 0 1280x720x24 &
           export DISPLAY=:99
-          XVFB_PID=$!
-
-          # Wait for Xvfb to initialize
-          sleep 1
-
-          # Start ffmpeg to record the virtual display
-          ffmpeg -y -video_size 1280x720 -framerate 10 -f x11grab -i :99 selenium-video.mp4 &
+          
+          # Start ffmpeg to record Xvfb display
+          ffmpeg -y -video_size 1280x720 -framerate 25 -f x11grab -i :99 selenium-video.mp4 &
           FFMPEG_PID=$!
-
-          # Run Maven tests
+          
+          # Run tests
           mvn test
-
-          # Stop ffmpeg gracefully and wait for it
-          kill -INT $FFMPEG_PID
-          wait $FFMPEG_PID || true
-
-          # Stop Xvfb
-          kill $XVFB_PID
+          
+          # Stop ffmpeg after tests finish
+          kill $FFMPEG_PID || true
 
       - name: Upload video artifact
         uses: actions/upload-artifact@v4

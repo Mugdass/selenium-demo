@@ -10,15 +10,16 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <!-- Force Java 17 for compile + test -->
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
         <junit.jupiter.version>5.10.0</junit.jupiter.version>
         <selenium.version>4.25.0</selenium.version>
     </properties>
 
     <dependencies>
+
         <!-- Selenium WebDriver -->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
@@ -34,26 +35,27 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- WebDriverManager for automatic driver binaries -->
+        <!-- WebDriverManager -->
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
             <version>5.5.3</version>
         </dependency>
 
-        <!-- Monte Screen Recorder (public Maven Central version) -->
-     <dependency>
-    <groupId>org.monte</groupId>
-    <artifactId>monte-media</artifactId>
-    <version>12.0.1</version>
-    <scope>test</scope>
-</dependency>
+        <!-- Monte Media (Correct version for ScreenRecorder) -->
+        <dependency>
+            <groupId>org.monte</groupId>
+            <artifactId>monte-screen-recorder</artifactId>
+            <version>0.7.7</version>
+            <scope>test</scope>
+        </dependency>
 
     </dependencies>
 
     <build>
         <plugins>
-            <!-- Ensure Java 17 compiler -->
+
+            <!-- Java 17 compiler -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -64,7 +66,7 @@
                 </configuration>
             </plugin>
 
-            <!-- Run JUnit 5 tests -->
+            <!-- JUnit 5 test runner -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -76,6 +78,7 @@
                     <useModulePath>false</useModulePath>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
 

@@ -9,33 +9,50 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class GoogleSearchTest {
 
-    WebDriver driver;
+    private WebDriver driver;
+    private WebDriverWait wait;
 
     @BeforeEach
     public void setUp() {
+        // Set up ChromeDriver using WebDriverManager
         WebDriverManager.chromedriver().setup();
 
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless");      // run in headless mode
-        options.addArguments("--disable-gpu");   // recommended for headless
-        options.addArguments("--no-sandbox");    // required on Linux CI
-        options.addArguments("--disable-dev-shm-usage"); // prevent memory issues
+        // Explicitly set Chrome binary path for GitHub Actions
+        options.setBinary("/usr/bin/google-chrome");
+        options.addArguments("--headless");
+        options.addArguments("--disable-gpu");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+
         driver = new ChromeDriver(options);
+        // Dynamic wait for elements
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     @Test
-    public void searchSeleniumDemo() throws InterruptedException {
+    public void searchSeleniumDemo() {
         driver.get("https://www.google.com");
-        WebElement searchBox = driver.findElement(By.name("q"));
+
+        // Wait for search box to be present
+        WebElement searchBox = wait.until(
+                ExpectedConditions.presenceOfElementLocated(By.name("q"))
+        );
+
         searchBox.sendKeys("selenium demo");
         searchBox.submit();
 
-        Thread.sleep(2000); // wait for results to load
+        // Wait for the title to update
+        wait.until(ExpectedConditions.titleContains("selenium demo"));
 
         assertTrue(driver.getTitle().toLowerCase().contains("selenium demo"));
     }

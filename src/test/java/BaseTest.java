@@ -23,7 +23,7 @@ public class BaseTest {
 
     @BeforeEach
     public void setUp() throws Exception {
-        // Set up ChromeDriver automatically
+        // Set up ChromeDriver
         WebDriverManager.chromedriver().setup();
 
         // Chrome options
@@ -31,7 +31,6 @@ public class BaseTest {
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--window-size=1920,1080");
-        // Do NOT use headless — recording needs a visible framebuffer
 
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
@@ -46,7 +45,9 @@ public class BaseTest {
                 .getDefaultScreenDevice()
                 .getDefaultConfiguration();
 
-        screenRecorder = new SpecializedScreenRecorder(gc, file, "TestVideo");
+        Rectangle captureSize = gc.getBounds(); // <-- pass Rectangle for screen size
+
+        screenRecorder = new SpecializedScreenRecorder(gc, captureSize, file, "TestVideo");
         screenRecorder.start();
     }
 
@@ -64,8 +65,8 @@ public class BaseTest {
     private static class SpecializedScreenRecorder extends ScreenRecorder {
         private final String fileName;
 
-        public SpecializedScreenRecorder(GraphicsConfiguration cfg, File movieFolder, String name) throws Exception {
-            super(cfg, movieFolder,
+        public SpecializedScreenRecorder(GraphicsConfiguration cfg, Rectangle captureArea, File movieFolder, String name) throws Exception {
+            super(cfg, captureArea, movieFolder,
                     new Format(MediaTypeKey, MediaType.FILE, MimeTypeKey, MIME_QUICKTIME),
                     new Format(MediaTypeKey, MediaType.VIDEO, EncodingKey, ENCODING_QUICKTIME_ANIMATION,
                             CompressorNameKey, ENCODING_QUICKTIME_ANIMATION,

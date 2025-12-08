@@ -40,11 +40,11 @@
             <version>5.5.3</version>
         </dependency>
 
-        <!-- Monte Screen Recorder (official) -->
+        <!-- Monte Media Screen Recorder (new Central version) -->
         <dependency>
-            <groupId>org.monte</groupId>
-            <artifactId>monte-screen-recorder</artifactId>
-            <version>0.7.7</version>
+            <groupId>ch.randelshofer</groupId>
+            <artifactId>org.monte.media.screenrecorder</artifactId>
+            <version>17.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

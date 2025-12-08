@@ -7,28 +7,25 @@ import org.testng.annotations.Test;
 public class DemoTest {
 
     @Test
-    public void testGoogleTitle() {
+    public void testGoogleTitle() throws InterruptedException {
+
         ChromeOptions options = new ChromeOptions();
-        
-        // CI-friendly flags
-        options.addArguments("--no-sandbox");           // Required in CI
-        options.addArguments("--disable-dev-shm-usage"); // Prevent memory issues
-        options.addArguments("--disable-gpu");          // Safe in CI
-        options.addArguments("--window-size=1280,720"); // Match ffmpeg recording
+        // CI-safe flags
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--disable-gpu");
+        options.addArguments("--window-size=1280,720"); // match Xvfb
+
+        // Important: remove headless so Chrome renders in Xvfb
+        // options.addArguments("--headless=new");
 
         WebDriver driver = new ChromeDriver(options);
+        driver.get("https://www.google.com");
 
-        try {
-            driver.get("https://www.google.com");
+        // Optional wait to allow rendering
+        Thread.sleep(5000);
 
-            // Optional: small wait for page load
-            Thread.sleep(3000);
-
-            Assert.assertTrue(driver.getTitle().contains("Google"));
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } finally {
-            driver.quit();
-        }
+        Assert.assertTrue(driver.getTitle().contains("Google"));
+        driver.quit();
     }
 }

@@ -1,12 +1,12 @@
 name: Selenium Tests with Recording
 
 on:
-  workflow_dispatch:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-  schedule:
+  workflow_dispatch:   # manual trigger
+  push:                # run on any push to any branch
+    branches: [ '**' ]
+  pull_request:        # run on any PR from any branch
+    branches: [ '**' ]
+  schedule:            # cron schedule every 5 minutes
     - cron: "*/5 * * * *"
 
 jobs:

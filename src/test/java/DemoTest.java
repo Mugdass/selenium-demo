@@ -8,23 +8,27 @@ public class DemoTest {
 
     @Test
     public void testGoogleTitle() {
-
         ChromeOptions options = new ChromeOptions();
-        // Headless mode + CI-friendly flags
-        options.addArguments("--headless=new");       // Run without GUI
-        options.addArguments("--no-sandbox");         // Required in CI
+        
+        // CI-friendly flags
+        options.addArguments("--no-sandbox");           // Required in CI
         options.addArguments("--disable-dev-shm-usage"); // Prevent memory issues
-        options.addArguments("--disable-gpu");        // Safe in CI
+        options.addArguments("--disable-gpu");          // Safe in CI
+        options.addArguments("--window-size=1280,720"); // Match ffmpeg recording
 
         WebDriver driver = new ChromeDriver(options);
-        driver.get("https://www.google.com");
 
-        // Optional: wait a bit (not needed in real tests)
-        try { Thread.sleep(5000); } catch (Exception e) {}
+        try {
+            driver.get("https://www.google.com");
 
-        Assert.assertTrue(driver.getTitle().contains("Google"));
+            // Optional: small wait for page load
+            Thread.sleep(3000);
 
-        driver.quit();
+            Assert.assertTrue(driver.getTitle().contains("Google"));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            driver.quit();
+        }
     }
 }
-

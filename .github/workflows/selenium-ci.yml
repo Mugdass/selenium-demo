@@ -22,19 +22,6 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      # Auth required for GitHub Packages (Monte Media 12.x)
-      - name: Configure GitHub Packages authentication
-        run: |
-          echo "<settings>
-                  <servers>
-                    <server>
-                      <id>monte-media-github</id>
-                      <username>${{ github.actor }}</username>
-                      <password>${{ secrets.GITHUB_TOKEN }}</password>
-                    </server>
-                  </servers>
-                </settings>" > ~/.m2/settings.xml
-
       - name: Cache Maven packages
         uses: actions/cache@v4
         with:
@@ -44,7 +31,7 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: Install dependencies
-        run: mvn -B install -DskipTests
+        run: mvn install -DskipTests
 
       - name: Start X virtual framebuffer
         run: |
@@ -54,7 +41,7 @@ jobs:
           echo "DISPLAY=:99" >> $GITHUB_ENV
 
       - name: Run Selenium tests
-        run: mvn -B test
+        run: mvn test
 
       - name: Upload test videos
         uses: actions/upload-artifact@v4

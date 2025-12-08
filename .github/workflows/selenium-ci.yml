@@ -2,20 +2,14 @@ name: Selenium Tests
 
 on:
   push:
-    branches: [ main ]
+    branches: ['**']
   pull_request:
-    branches: [ main ]
+    branches: ['**']
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
-    services:
-      xvfb: # For headless GUI
-        image: selenium/standalone-chrome:latest
-        options: >-
-          --shm-size 2g
-          
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3

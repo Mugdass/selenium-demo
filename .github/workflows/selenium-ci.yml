@@ -2,7 +2,7 @@ name: Selenium Tests
 
 on:
   push:
-    branches: ['**']
+    branches: ['**']   # run on all branches
   pull_request:
     branches: ['**']
 
@@ -19,6 +19,13 @@ jobs:
       with:
         distribution: temurin
         java-version: 17
+
+    - name: Install Google Chrome
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y wget unzip xvfb
+        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        sudo dpkg -i google-chrome-stable_current_amd64.deb || sudo apt-get install -f -y
 
     - name: Cache Maven packages
       uses: actions/cache@v3

@@ -1,6 +1,7 @@
 name: Selenium Tests with Recording
 
 on:
+  workflow_dispatch:  # <-- Enables manual run
   push:
     branches: [ main ]
   pull_request:

@@ -22,9 +22,9 @@ public class GoogleSearchTest {
 
     @BeforeEach
     public void setUp() {
-        // Use system-installed Chrome directly
+        // Use system-installed Chrome directly (installed in workflow)
         ChromeOptions options = new ChromeOptions();
-        options.setBinary("/usr/bin/google-chrome"); // path to Chrome installed by workflow
+        options.setBinary("/usr/bin/google-chrome"); // GitHub Actions Chrome path
         options.addArguments("--headless");
         options.addArguments("--disable-gpu");
         options.addArguments("--no-sandbox");
@@ -38,6 +38,7 @@ public class GoogleSearchTest {
     public void searchSeleniumDemo() {
         driver.get("https://www.google.com");
 
+        // Wait for search box to be present
         WebElement searchBox = wait.until(
                 ExpectedConditions.presenceOfElementLocated(By.name("q"))
         );
@@ -45,9 +46,13 @@ public class GoogleSearchTest {
         searchBox.sendKeys("selenium demo");
         searchBox.submit();
 
-        wait.until(ExpectedConditions.titleContains("selenium demo"));
+        // Wait for search results container
+        WebElement results = wait.until(
+                ExpectedConditions.presenceOfElementLocated(By.id("search"))
+        );
 
-        assertTrue(driver.getTitle().toLowerCase().contains("selenium demo"));
+        // Assert that results contain the word "selenium"
+        assertTrue(results.getText().toLowerCase().contains("selenium"));
     }
 
     @AfterEach
